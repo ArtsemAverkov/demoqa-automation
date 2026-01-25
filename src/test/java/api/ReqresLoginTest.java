@@ -22,12 +22,10 @@ public class ReqresLoginTest {
         given()
                .log().all()
                 .contentType(ContentType.JSON)
-                .body("""
-                {
-                  "email": "eve.holt@reqres.in",
-                  "password": "cityslicka"
-                }
-            """)
+                .body("{\n" +
+                        "  \"email\": \"eve.holt@reqres.in\",\n" +
+                        "  \"password\": \"cityslicka\"\n" +
+                        "}")
                 .when()
                 .post("/api/login")
                 .then()
