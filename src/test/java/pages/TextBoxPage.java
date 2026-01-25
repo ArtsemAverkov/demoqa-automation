@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -49,5 +50,21 @@ public class TextBoxPage {
 
     public String getOutputText(){
         return output.getText();
+    }
+
+    public String getEmailValue(){
+        return email.getAttribute("value");
+    }
+
+    public boolean isOutputDisplayed(){
+        return driver.findElements(By.id("output")).isEmpty();
+    }
+
+    public boolean isEmailFieldInvalid(){
+        return email.getAttribute("class").contains("field-error");
+    }
+
+    public String getNameValue(){
+        return fullName.getAttribute("value");
     }
 }
