@@ -3,7 +3,7 @@ plugins {
     id 'io.qameta.allure' version '2.11.2'
 }
 
-group = 'org.example'
+
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -18,11 +18,45 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:5.4.0'
     testImplementation 'io.qameta.allure:allure-testng:2.21.0'
     testImplementation "org.yaml:snakeyaml:2.2"
-    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.9.2"
+    //testImplementation "org.junit.jupiter:junit-jupiter-engine:5.9.2"
 }
 
 test {
-    useTestNG()
-    systemProperty 'selenium.remote', 'false'
-    systemProperty 'browser', 'chrome'
+    useTestNG {
+        outputDirectory = file("$buildDir/testng-output")
+        useDefaultListeners = true
+    }
+
+    systemProperty "browser", System.getProperty("browser") ?: "chrome"
+    systemProperty "headless", System.getProperty("headless") ?: "false"
+    systemProperty "allure.results.directory", "$buildDir/allure-results"
+
+    testLogging {
+        events "passed", "failed", "skipped", "standard_out", "standard_error"
+        showExceptions true
+        exceptionFormat "full"
+        showCauses true
+        showStackTraces true
+    }
+
+    minHeapSize = "512m"
+    maxHeapSize = "2048m"
+
+    finalizedBy 'allureReport'
+}
+
+allure {
+    version = '2.25.0'
+
+    adapter {
+        frameworks {
+            testng {
+                enabled = true
+            }
+        }
+    }
+
+    report {
+        reportDir = file("$buildDir/reports/allure-report")
+    }
 }
