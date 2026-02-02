@@ -2,8 +2,6 @@ package ui;
 
 import core.BaseTest;
 
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Nested;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.TextBoxPage;
@@ -13,10 +11,8 @@ import utills.models.UserDto;
 import utills.users.ParameterResolverUser;
 
 
-//@DisplayName("Positive test Text_box")
 public class TestBoxTest extends BaseTest {
-
-
+    
     @Test
     public void positiveTextBoxTest(){
 
@@ -103,10 +99,6 @@ public class TestBoxTest extends BaseTest {
         Assert.assertTrue(outputText.contains(validUser.name));
     }
 
-//    @Nested
-//    @DisplayName("Negative test Text_box")
-//    class NegativeTestBoxTest extends BaseTest{
-
         @Test
         public void negativeEmptyNameTest(){
             UserDto validUser = ParameterResolverUser.getUser(TestUserScenario.EMPTY_NAME.getDataUser());
@@ -182,5 +174,3 @@ public class TestBoxTest extends BaseTest {
 
     }
 
-
-//}
