@@ -30,7 +30,41 @@ public class CheckBoxTest extends BaseTest {
 
         String resultText = checkBoxPage.getResultText();
         Assert.assertTrue(resultText.contains("notes"), "Result не содержит 'notes'");
-
-
     }
+
+    @Test
+    public void desktopCheckBoxShouldBeHalfChecked(){
+        driver.get(Endpoint.CHECK_BOX.getPatch());
+        CheckBoxPage checkBoxPage = new CheckBoxPage(driver);
+
+        checkBoxPage.expandAll();
+        checkBoxPage.clickNotes();
+
+        Assert.assertTrue(checkBoxPage.isDesktopHalfChecked(), "Desktop не в состоянии half-checked");
+    }
+
+    @Test
+    public void collapseAllShouldHideChildElements() {
+        driver.get(Endpoint.CHECK_BOX.getPatch());
+        CheckBoxPage checkBoxPage = new CheckBoxPage(driver);
+
+        checkBoxPage.expandAll();
+        Assert.assertTrue(checkBoxPage.isDesktopVisible(), "Desktop должен быть виден после Expand All");
+
+        checkBoxPage.collapseAll();
+        Assert.assertFalse(checkBoxPage.isDesktopVisible(), "Desktop должен быть скрыт после Collapse All");
+    }
+
+    @Test
+    public void expandAllShouldExpandAllElements(){
+        driver.get(Endpoint.CHECK_BOX.getPatch());
+        CheckBoxPage checkBoxPage = new CheckBoxPage(driver);
+
+        checkBoxPage.expandAll();
+
+        Assert.assertTrue(checkBoxPage.isDesktopVisible(), "Desktop должен быть виден");
+        Assert.assertTrue(checkBoxPage.isDocumentsVisible(), "Documents должен быть виден");
+        Assert.assertTrue(checkBoxPage.isDownloadsVisible(), "Downloads должен быть виден");
+    }
+
 }
