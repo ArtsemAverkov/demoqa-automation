@@ -3,7 +3,6 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import utills.Endpoint;
 
 public class CheckBoxPage {
 
@@ -13,68 +12,102 @@ public class CheckBoxPage {
         this.driver = driver;
     }
 
+    // Buttons
     private By expandAllButton = By.cssSelector("button[title='Expand all']");
     private By collapseAllButton = By.cssSelector("button[title='Collapse all']");
 
-    private By homeCheckbox = By.xpath("//span[@class='rct-title' and text()='Home']");
-    private By desktopCheckBox = By.xpath("//span[@class='rct-title' and text()='Desktop']");
-    private  By desktopNode = By.xpath("//span[@class='rct-title' and text()='Desktop']");
-    private By documentsCheckBox = By.xpath("//span[@class='rct-title' and text()='Documents']");
-    private By downloadsCheckBox = By.xpath("//span[@class='rct-title' and text()='Downloads']");
-    private By selectedNestedItem = By.xpath("//span[@class='rct-title' and text()='Notes']");
+    // Titles
+    private By homeTitle = By.xpath("//span[@class='rct-title' and text()='Home']");
+    private By desktopTitle = By.xpath("//span[@class='rct-title' and text()='Desktop']");
+    private By documentsTitle = By.xpath("//span[@class='rct-title' and text()='Documents']");
+    private By downloadsTitle = By.xpath("//span[@class='rct-title' and text()='Downloads']");
+    private By notesTitle = By.xpath("//span[@class='rct-title' and text()='Notes']");
 
+
+    // Result block
     private By resultBlock = By.id("result");
 
-    private By desktopHalfCheckedIcon =
-            By.xpath("//span[text()='Desktop']" +
-                    "/ancestor::label" +
-                    "//*[contains(@class,'rct-icon-half-check')]");
+
+    // Checkbox inputs
+    private By desktopCheckboxInput =
+            By.xpath("//span[text()='Desktop']/ancestor::label/input");
+
+    private By documentsCheckboxInput =
+            By.xpath("//span[text()='Documents']/ancestor::label/input");
+
+    private By downloadsCheckboxInput =
+            By.xpath("//span[text()='Downloads']/ancestor::label/input");
 
 
-    public  void open(){
-        driver.get(Endpoint.CHECK_BOX.getPatch());
-    }
+    // Half-check icons
+    private By desktopHalfCheckIcon =
+            By.xpath("//span[text()='Desktop']/ancestor::label//*[contains(@class,'rct-icon-half-check')]");
 
-    public void expandAll(){
+
+    public void expandAll() {
         driver.findElement(expandAllButton).click();
     }
 
-    public void collapseAll(){
+    public void collapseAll() {
         driver.findElement(collapseAllButton).click();
     }
 
-    public void clickHome(){
-        driver.findElement(homeCheckbox).click();
+    public void clickHome() {
+        driver.findElement(homeTitle).click();
     }
 
-    public String getResultText(){
-        return driver.findElement(resultBlock).getText();
+    public void clickNotes() {
+        driver.findElement(notesTitle).click();
     }
 
-    public void clickNotes(){
-        driver.findElement(selectedNestedItem).click();
+
+    // --- Checked state ---
+
+    private boolean isCheckboxChecked(By inputLocator) {
+        return driver.findElement(inputLocator).isSelected();
     }
 
-    public boolean isDesktopHalfChecked(){
-        return !driver.findElements(desktopHalfCheckedIcon).isEmpty();
+    public boolean isDesktopChecked() {
+        return isCheckboxChecked(desktopCheckboxInput);
     }
 
-    public boolean isNodeVisible(By locator){
+    public boolean isDocumentsChecked() {
+        return isCheckboxChecked(documentsCheckboxInput);
+    }
+
+    public boolean isDownloadsChecked() {
+        return isCheckboxChecked(downloadsCheckboxInput);
+    }
+
+    // --- Half checked state ---
+
+    public boolean isDesktopHalfChecked() {
+        return !driver.findElements(desktopHalfCheckIcon).isEmpty();
+    }
+
+    // --- Visibility ---
+
+    private boolean isVisible(By locator) {
         return driver.findElements(locator)
                 .stream()
                 .anyMatch(WebElement::isDisplayed);
     }
 
     public boolean isDesktopVisible() {
-        return isNodeVisible(desktopNode);
+        return isVisible(desktopTitle);
     }
 
-    public  boolean isDocumentsVisible(){
-        return isNodeVisible(documentsCheckBox);
+    public boolean isDocumentsVisible() {
+        return isVisible(documentsTitle);
     }
 
     public boolean isDownloadsVisible() {
-        return isNodeVisible(downloadsCheckBox);
+        return isVisible(downloadsTitle);
     }
 
+    // --- Result text ---
+
+    public String getResultText() {
+        return driver.findElement(resultBlock).getText();
+    }
 }
