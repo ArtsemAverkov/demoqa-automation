@@ -67,4 +67,16 @@ public class CheckBoxTest extends BaseTest {
         Assert.assertTrue(checkBoxPage.isDownloadsVisible(), "Downloads должен быть виден");
     }
 
+    @Test
+    public void selectingHomeSelectsAllChildren() {
+        driver.get(Endpoint.CHECK_BOX.getPatch());
+        CheckBoxPage checkBoxPage = new CheckBoxPage(driver);
+
+        checkBoxPage.clickHome();
+        checkBoxPage.expandAll();
+
+        Assert.assertTrue(checkBoxPage.isDesktopChecked());
+        Assert.assertTrue(checkBoxPage.isDownloadsChecked());
+        Assert.assertTrue(checkBoxPage.isDocumentsChecked());
+    }
 }
