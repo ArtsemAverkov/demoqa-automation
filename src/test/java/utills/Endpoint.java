@@ -2,7 +2,8 @@ package utills;
 
 public enum Endpoint {
     TEXT_BOX("/text-box"),
-    CHECK_BOX("/checkbox");
+    CHECK_BOX("/checkbox"),
+    RADIO_BUTTON("/radio-button");
 
 
     private final String patch;
